@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tijn Hoorneman - Portfolio</title>
     <style>
-        /* Base Colors */
         :root {
             --background: #000000;
             --text: #f5f5f7;
@@ -15,7 +14,6 @@
             --transition-speed: 0.3s;
         }
 
-        /* Global Styles */
         * {
             box-sizing: border-box;
         }
@@ -32,6 +30,10 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        body {
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+        }
+
         a {
             color: var(--accent);
             text-decoration: none;
@@ -45,10 +47,9 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 80px 40px;
         }
 
-        /* Header */
         header {
             text-align: center;
             margin-bottom: 80px;
@@ -58,7 +59,7 @@
         }
 
         h1 {
-            font-size: 64px;
+            font-size: 80px;
             font-weight: 800;
             margin-bottom: 15px;
             background: linear-gradient(90deg, var(--accent), #64b5f6);
@@ -68,46 +69,23 @@
         }
 
         .subtitle {
-            font-size: 24px;
+            font-size: 28px;
             color: var(--text);
             opacity: 0.8;
         }
 
-        /* Grid Layout */
         .grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
+            gap: 30px;
         }
 
-        @media (max-width: 1200px) {
-            .grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            .card {
-                padding: 25px 20px;
-            }
-            h1 {
-                font-size: 48px;
-            }
-            .subtitle {
-                font-size: 20px;
-            }
-        }
-
-        /* Card Styles */
         .card {
             background: var(--card-bg);
             border-radius: 20px;
             padding: 40px 35px;
             box-shadow: 0 8px 30px var(--shadow);
-            transition: all var(--transition-speed) ease;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInCard 0.6s ease forwards;
@@ -133,12 +111,12 @@
         }
 
         .card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 15px 45px var(--shadow);
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(41, 151, 255, 0.2);
         }
 
         .card h2 {
-            font-size: 28px;
+            font-size: 32px;
             margin-top: 0;
             margin-bottom: 25px;
             color: var(--accent);
@@ -160,6 +138,7 @@
             animation-delay: calc(var(--order) * 0.1s + 0.3s);
             cursor: pointer;
             transition: color 0.3s ease;
+            font-size: 18px;
         }
 
         .card li:hover {
@@ -175,7 +154,6 @@
             line-height: 1;
         }
 
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -216,80 +194,31 @@
             cursor: pointer;
         }
 
-        /* Desktop Enhancements */
-        @media (min-width: 1024px) {
-            body {
-                background: linear-gradient(135deg, #000000, #1a1a1a);
-            }
-
-            .container {
-                padding: 80px 40px;
-            }
-
-            .grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 30px;
-            }
-
-            .card {
-                transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            }
-
-            .card:hover {
-                transform: translateY(-15px) scale(1.05);
-                box-shadow: 0 20px 60px rgba(41, 151, 255, 0.2);
-            }
-
-            .card::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(45deg, rgba(41, 151, 255, 0.1), transparent);
-                opacity: 0;
-                transition: opacity 0.5s ease;
-            }
-
-            .card:hover::after {
-                opacity: 1;
-            }
-
-            h1 {
-                font-size: 80px;
-                letter-spacing: -2px;
-            }
-
-            .subtitle {
-                font-size: 28px;
-            }
-
-            .card h2 {
-                font-size: 32px;
-            }
-
-            .card li {
-                font-size: 18px;
-            }
-
-            /* Parallax effect */
-            .parallax-container {
-                perspective: 1000px;
-                transform-style: preserve-3d;
-            }
-
-            .parallax-card {
-                transform: translateZ(0);
-                transition: transform 0.5s ease;
-            }
-
-            .parallax-card:hover {
-                transform: translateZ(50px);
-            }
+        .parallax-container {
+            perspective: 1000px;
+            transform-style: preserve-3d;
         }
 
-        /* Animations */
+        .parallax-card {
+            transform: translateZ(0);
+            transition: transform 0.5s ease;
+        }
+
+        .parallax-card:hover {
+            transform: translateZ(50px);
+        }
+
+        #cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: 0.1s;
+            z-index: 9999;
+        }
+
         @keyframes fadeInUp {
             to {
                 opacity: 1;
@@ -310,9 +239,31 @@
                 transform: translateX(0);
             }
         }
+
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .card {
+                padding: 25px 20px;
+            }
+            h1 {
+                font-size: 48px;
+            }
+            .subtitle {
+                font-size: 20px;
+            }
+        }
     </style>
 </head>
 <body>
+    <div id="cursor"></div>
     <div class="container">
         <header>
             <h1>Tijn Hoorneman</h1>
@@ -372,68 +323,80 @@
         </div>
     </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const cards = document.querySelectorAll('.card');
-        const modal = document.getElementById('modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalBody = document.getElementById('modal-body');
-        const closeBtn = document.querySelector('.close');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const closeBtn = document.querySelector('.close');
+            const cursor = document.getElementById('cursor');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
 
-        cards.forEach(card => {
-            observer.observe(card);
-            card.querySelectorAll('li').forEach((li, index) => {
-                li.style.animationDelay = `calc(${card.style.getPropertyValue('--order')} * 0.1s + ${0.3 + index * 0.1}s)`;
-                
-                li.addEventListener('click', () => {
-                    modalTitle.textContent = li.textContent;
-                    modalBody.textContent = li.getAttribute('data-info');
-                    modal.style.display = 'block';
-                    setTimeout(() => modal.classList.add('active'), 10);
+            cards.forEach(card => {
+                observer.observe(card);
+                card.querySelectorAll('li').forEach((li, index) => {
+                    li.style.animationDelay = `calc(${card.style.getPropertyValue('--order')} * 0.1s + ${0.3 + index * 0.1}s)`;
+                    
+                    li.addEventListener('click', () => {
+                        modalTitle.textContent = li.textContent;
+                        modalBody.textContent = li.getAttribute('data-info');
+                        modal.style.display = 'block';
+                        setTimeout(() => modal.classList.add('active'), 10);
+                    });
                 });
             });
-        });
 
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
-            setTimeout(() => modal.style.display = 'none', 300);
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
+            closeBtn.addEventListener('click', () => {
                 modal.classList.remove('active');
                 setTimeout(() => modal.style.display = 'none', 300);
-            }
-        });
-
-        // Parallax effect for desktop
-        if (window.innerWidth >= 1024) {
-            const parallaxCards = document.querySelectorAll('.parallax-card');
-            parallaxCards.forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const xOffset = (x / rect.width - 0.5) * 20;
-                    const yOffset = (y / rect.height - 0.5) * 20;
-                    
-                    card.style.transform = `translateZ(50px) rotateX(${-yOffset}deg) rotateY(${xOffset}deg)`;
-                });
-                
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'translateZ(0) rotateX(0) rotateY(0)';
-                });
             });
-        }
-    });
-</script>
+
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.classList.remove('active');
+                    setTimeout(() => modal.style.display = 'none', 300);
+                }
+            });
+
+            // Parallax effect for desktop
+            if (window.innerWidth >= 1024) {
+                const parallaxCards = document.querySelectorAll('.parallax-card');
+                parallaxCards.forEach(card => {
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const xOffset = (x / rect.width - 0.5) * 20;
+                        const yOffset = (y / rect.height - 0.5) * 20;
+                        
+                        card.style.transform = `translateZ(50px) rotateX(${-yOffset}deg) rotateY(${xOffset}deg)`;
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateZ(0) rotateX(0) rotateY(0)';
+                    });
+                });
+            }
+
+            // Custom cursor
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.top = e.pageY + 'px';
+                cursor.style.left = e.pageX + 'px';
+            });
+
+            document.addEventListener('mousedown', () => cursor.style.transform = 'scale(0.8)');
+            document.addEventListener('mouseup', () => cursor.style.transform = 'scale(1)');
+        });
+    </script>
+</body>
+</html>
