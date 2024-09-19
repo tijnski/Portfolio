@@ -32,6 +32,7 @@
 
         body {
             background: linear-gradient(135deg, #000000, #1a1a1a);
+            min-height: 200vh;
         }
 
         a {
@@ -62,10 +63,11 @@
             font-size: 80px;
             font-weight: 800;
             margin-bottom: 15px;
-            background: linear-gradient(90deg, var(--accent), #64b5f6);
+            background: linear-gradient(90deg, #2997ff, #64b5f6, #2997ff);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(41, 151, 255, 0.3);
+            animation: gradientFlow 5s ease infinite;
         }
 
         .subtitle {
@@ -119,7 +121,10 @@
             font-size: 32px;
             margin-top: 0;
             margin-bottom: 25px;
-            color: var(--accent);
+            background: linear-gradient(45deg, #2997ff, #64b5f6, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: bubbleFlow 3s ease-in-out infinite;
         }
 
         .card ul {
@@ -240,6 +245,27 @@
             }
         }
 
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes bubbleFlow {
+            0%, 100% {
+                background-size: 100% 100%;
+            }
+            50% {
+                background-size: 120% 120%;
+            }
+        }
+
         @media (max-width: 1200px) {
             .grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -259,6 +285,15 @@
             .subtitle {
                 font-size: 20px;
             }
+            #cursor {
+                display: none;
+            }
+        }
+
+        @media (min-width: 769px) {
+            * {
+                cursor: none;
+            }
         }
     </style>
 </head>
@@ -273,43 +308,43 @@
             <div class="card parallax-card" style="--order: 1;">
                 <h2>Work Experience</h2>
                 <ul>
-                    <li data-info="Superp - Software Developer (2024-10 - Present): Developing innovative software solutions for client projects.">Superp - Software Developer (2024-10 - Present)</li>
-                    <li data-info="Justins - Software Developer (2022-12 - 2024-04): Worked on various web development projects using modern technologies.">Justins - Software Developer (2022-12 - 2024-04)</li>
-                    <li data-info="Domino's - Delivery Person (2022-11 - 2024-05): Ensured timely and accurate delivery of orders while providing excellent customer service.">Domino's - Delivery Person (2022-11 - 2024-05)</li>
+                    <li data-info="Developing innovative software solutions for client projects.">Superp - Software Developer (2024-10 - Present)</li>
+                    <li data-info="Worked on various web development projects using modern technologies.">Justins - Software Developer (2022-12 - 2024-04)</li>
+                    <li data-info="Ensured timely and accurate delivery of orders while providing excellent customer service.">Domino's - Delivery Person (2022-11 - 2024-05)</li>
                 </ul>
             </div>
             <div class="card parallax-card" style="--order: 2;">
                 <h2>Certifications</h2>
                 <ul>
-                    <li data-info="Microsoft SC-900: Security, Compliance, and Identity Fundamentals">Microsoft SC-900</li>
-                    <li data-info="Microsoft PL-900: Power Platform Fundamentals">Microsoft PL-900</li>
-                    <li data-info="Microsoft MS-900: Microsoft 365 Fundamentals">Microsoft MS-900</li>
-                    <li data-info="ITS Python: Comprehensive Python programming certification">ITS Python</li>
-                    <li data-info="Google Cybersecurity: Professional Certificate in Cybersecurity">Google Cybersecurity</li>
+                    <li data-info="Security, Compliance, and Identity Fundamentals">Microsoft SC-900</li>
+                    <li data-info="Power Platform Fundamentals">Microsoft PL-900</li>
+                    <li data-info="Microsoft 365 Fundamentals">Microsoft MS-900</li>
+                    <li data-info="Comprehensive Python programming certification">ITS Python</li>
+                    <li data-info="Professional Certificate in Cybersecurity">Google Cybersecurity</li>
                 </ul>
             </div>
             <div class="card parallax-card" style="--order: 3;">
                 <h2>Projects</h2>
                 <ul>
-                    <li data-info="Automatic Blog Creator for WordPress: Developed a tool to automate content creation and posting for WordPress blogs.">Automatic Blog Creator for WordPress</li>
-                    <li data-info="Search with Presearch Shortcuts: Created custom search shortcuts to enhance the Presearch engine experience.">Search with Presearch Shortcuts</li>
+                    <li data-info="Developed a tool to automate content creation and posting for WordPress blogs.">Automatic Blog Creator for WordPress</li>
+                    <li data-info="Created custom search shortcuts to enhance the Presearch engine experience.">Search with Presearch Shortcuts</li>
                 </ul>
             </div>
             <div class="card parallax-card" style="--order: 4;">
                 <h2>Skills</h2>
                 <ul>
-                    <li data-info="Software Development: Proficient in designing, coding, and maintaining software applications.">Software Development</li>
-                    <li data-info="Python: Expert-level programming in Python for various applications and data analysis.">Python</li>
-                    <li data-info="React: Building responsive and interactive user interfaces using React.js.">React</li>
-                    <li data-info="Node.js: Server-side JavaScript programming for scalable web applications.">Node.js</li>
-                    <li data-info="Database Management: Experienced in designing and managing both SQL and NoSQL databases.">Database Management</li>
+                    <li data-info="Proficient in designing, coding, and maintaining software applications.">Software Development</li>
+                    <li data-info="Expert-level programming in Python for various applications and data analysis.">Python</li>
+                    <li data-info="Building responsive and interactive user interfaces using React.js.">React</li>
+                    <li data-info="Server-side JavaScript programming for scalable web applications.">Node.js</li>
+                    <li data-info="Experienced in designing and managing both SQL and NoSQL databases.">Database Management</li>
                 </ul>
             </div>
             <div class="card parallax-card" style="--order: 5;">
                 <h2>Contact</h2>
                 <ul>
-                    <li data-info="Email: Tijn@hoorneman.com">Email: <a href="mailto:Tijn@hoorneman.com">Tijn@hoorneman.com</a></li>
-                    <li data-info="LinkedIn: Connect with me on LinkedIn">LinkedIn: <a href="https://www.linkedin.com/in/TijnHoorneman" target="_blank">TijnHoorneman</a></li>
+                    <li data-info="Tijn@hoorneman.com">Email: <a href="mailto:Tijn@hoorneman.com">Tijn@hoorneman.com</a></li>
+                    <li data-info="Connect with me on LinkedIn">LinkedIn: <a href="https://www.linkedin.com/in/TijnHoorneman" target="_blank">TijnHoorneman</a></li>
                 </ul>
             </div>
         </div>
@@ -388,15 +423,26 @@
                 });
             }
 
-            // Custom cursor
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.top = e.pageY + 'px';
-                cursor.style.left = e.pageX + 'px';
-            });
+            // Custom cursor for desktop only
+            if (window.innerWidth >= 769) {
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.top = e.clientY + 'px';
+                    cursor.style.left = e.clientX + 'px';
+                });
 
-            document.addEventListener('mousedown', () => cursor.style.transform = 'scale(0.8)');
-            document.addEventListener('mouseup', () => cursor.style.transform = 'scale(1)');
+                document.addEventListener('mousedown', () => cursor.style.transform = 'scale(0.8)');
+                document.addEventListener('mouseup', () => cursor.style.transform = 'scale(1)');
+
+                // Hide cursor when it leaves the window
+                document.addEventListener('mouseleave', () => cursor.style.display = 'none');
+                document.addEventListener('mouseenter', () => cursor.style.display = 'block');
+
+                // Add hover effect to clickable elements
+                const clickables = document.querySelectorAll('a, button, .card li');
+                clickables.forEach(elem => {
+                    elem.addEventListener('mouseover', () => cursor.style.transform = 'scale(1.5)');
+                    elem.addEventListener('mouseout', () => cursor.style.transform = 'scale(1)');
+                });
+            }
         });
     </script>
-</body>
-</html>
