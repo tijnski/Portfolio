@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tijn Hoorneman - Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { 
+            margin: 0; 
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #87CEEB, #E0F6FF);
+            color: #333;
+        }
+        #canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            z-index: -1;
+        }
+        .content {
+            position: relative;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { 
+            text-align: center; 
+            color: #333;
+        }
+        .info-panel {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="content">
+        <h1>Tijn Hoorneman</h1>
+        <div class="info-panel" id="info-panel">
+            <h2>Welcome to my portfolio</h2>
+            <p>Click on the floating clouds to learn more about my experience, skills, and projects.</p>
+        </div>
+    </div>
+
+    <script>
+        const portfolioData = [
+            { title: 'Work Experience', items: [
+                { name: 'Superp', role: 'Software Developer', period: '2024-10 - present' },
+                { name: 'Justins', role: 'Software Developer', period: '2022-12 - 2024-04' },
+                { name: "Domino's", role: 'Delivery Person', period: '2022-11 - 2024-05' },
+                { name: 'Talk2Marketing', role: 'Salesperson', period: '2021-01 - 2022-11' },
+                { name: 'Albert Heijn', role: 'Shelf Stocker', period: '2019-10 - 2021-10' }
+            ]},
+            { title: 'Certifications', items: [
+                'Microsoft SC-900',
+                'Microsoft PL-900',
+                'Microsoft MS-900',
+                'ITS Python',
+                'Google Cybersecurity'
+            ]},
+            { title: 'Projects', items: [
+                'Automatic blog creator for Wordpress',
+                'Search with Presearch Shortcuts'
+            ]},
+            { title: 'Skills', items: [
+                'Software Development',
+                'Python',
+                'React',
+                'Node.js',
+                'Database Management'
+            ]},
+            { title: 'Contact', items: [
+                'Email: Tijn@hoorneman.com',
+                'LinkedIn: TijnHoorneman'
+            ]}
+        ];
+
+        let scene, camera, renderer, raycaster, mouse;
+        const clouds = [];
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({canvas: document.getElementById('canvas'), alpha: true});
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            raycaster = new THREE.Raycaster();
+            mouse = new THREE.Vector2();
+
+            camera.position.z = 10;
+
+            createClouds();
+            animate();
+
+            window.addEventListener('resize', onWindowResize, false);
+            window.addEventListener('mousemove', onMouseMove, false);
+            window.addEventListener('click', onMouseClick, false);
+        }
+
+        function createCloudShape() {
+            const shape = new THREE.Shape();
+            shape.moveTo(0, 0);
+            shape.bezierCurveTo(25, -25, 75, -25, 100, 0);
+            shape.bezierCurveTo(125, 25, 75, 50, 50, 50);
+            shape.bezierCurveTo(25, 50, -25, 25, 0, 0);
+            return shape;
+        }
+
+        function createClouds() {
+            const cloudShape = createCloudShape();
+            const cloudGeometry = new THREE.ShapeGeometry(cloudShape);
+            cloudGeometry.scale(0.01, 0.01, 0.01);
+
+            portfolioData.forEach((data, index) => {
+                const material = new THREE.MeshBasicMaterial({
+                    color: 0xFFFFFF,
+                    transparent: true,
+                    opacity: 0.8,
+                });
+                const cloud = new THREE.Mesh(cloudGeometry, material);
+                
+                const angle = (index / portfolioData.length) * Math.PI * 2;
+                const radius = 300;
+                cloud.position.set(
+                    Math.cos(angle) * radius,
+                    Math.sin(angle) * radius,
+                    0
+                );
+                
+                cloud.userData = { title: data.title, items: data.items };
+                
+                scene.add(cloud);
+                clouds.push(cloud);
+
+                const textSprite = createTextSprite(data.title);
+                textSprite.position.copy(cloud.position);
+                textSprite.position.y -= 40;
+                scene.add(textSprite);
+            });
+        }
+
+        function createTextSprite(text) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            context.font = 'Bold 24px Arial';
+            context.fillStyle = 'black';
+            context.fillText(text, 0, 24);
+            const texture = new THREE.Texture(canvas);
+            texture.needsUpdate = true;
+            const material = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(material);
+            sprite.scale.set(100, 50, 1);
+            return sprite;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            const aspect = window.innerWidth / window.innerHeight;
+            const frustumSize = 1000;
+            camera.left = frustumSize * aspect / -2;
+            camera.right = frustumSize * aspect / 2;
+            camera.top = frustumSize / 2;
+            camera.bottom = frustumSize / -2;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onMouseMove(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(clouds);
+
+            if (intersects.length > 0) {
+                document.body.style.cursor = 'pointer';
+            } else {
+                document.body.style.cursor = 'default';
+            }
+        }
+
+        function onMouseClick() {
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(clouds);
+
+            if (intersects.length > 0) {
+                const selectedCloud = intersects[0].object;
+                updateInfoPanel(selectedCloud.userData);
+            }
+        }
+
+        function updateInfoPanel(data) {
+            const infoPanel = document.getElementById('info-panel');
+            let content = `<h2>${data.title}</h2><ul>`;
+            data.items.forEach(item => {
+                if (typeof item === 'string') {
+                    content += `<li>${item}</li>`;
+                } else {
+                    content += `<li>${item.name} - ${item.role} (${item.period})</li>`;
+                }
+            });
+            content += '</ul>';
+            infoPanel.innerHTML = content;
+        }
+
+        init();
+    </script>
+</body>
+</html>
