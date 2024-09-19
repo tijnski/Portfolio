@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,23 +8,12 @@
     <style>
         /* Base Colors */
         :root {
-            --background: #ffffff;
-            --text: #1d1d1f;
-            --accent: #0071e3;
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --shadow: rgba(0, 0, 0, 0.1);
+            --background: #000000;
+            --text: #f5f5f7;
+            --accent: #2997ff;
+            --card-bg: rgba(29, 29, 31, 0.95);
+            --shadow: rgba(0, 0, 0, 0.3);
             --transition-speed: 0.3s;
-        }
-
-        /* Dark Mode */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --background: #121212;
-                --text: #e0e0e0;
-                --accent: #1e90ff;
-                --card-bg: rgba(18, 18, 18, 0.95);
-                --shadow: rgba(0, 0, 0, 0.5);
-            }
         }
 
         /* Global Styles */
@@ -50,11 +40,11 @@
         }
 
         a:hover {
-            color: darken(var(--accent), 10%);
+            color: #64b5f6;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 60px 20px;
         }
@@ -69,16 +59,17 @@
         }
 
         h1 {
-            font-size: 48px;
+            font-size: 64px;
             font-weight: 800;
             margin-bottom: 15px;
-            background: linear-gradient(90deg, var(--accent), #00c7be);
+            background: linear-gradient(90deg, var(--accent), #64b5f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(41, 151, 255, 0.3);
         }
 
         .subtitle {
-            font-size: 20px;
+            font-size: 24px;
             color: var(--text);
             opacity: 0.8;
         }
@@ -86,22 +77,28 @@
         /* Grid Layout */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 40px;
+        }
+
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
             .grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                grid-template-columns: 1fr;
             }
             .card {
-                padding: 15px 10px;
+                padding: 25px 20px;
             }
-            .card h2 {
-                font-size: 18px;
+            h1 {
+                font-size: 48px;
             }
-            .card li::before {
-                font-size: 14px;
+            .subtitle {
+                font-size: 20px;
             }
         }
 
@@ -109,13 +106,31 @@
         .card {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 30px 25px;
+            padding: 40px 35px;
             box-shadow: 0 8px 30px var(--shadow);
-            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            transition: all var(--transition-speed) ease;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInCard 0.6s ease forwards;
             animation-delay: calc(var(--order) * 0.1s);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(41, 151, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
         }
 
         .card:hover {
@@ -124,9 +139,9 @@
         }
 
         .card h2 {
-            font-size: 24px;
+            font-size: 28px;
             margin-top: 0;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
             color: var(--accent);
         }
 
@@ -137,9 +152,9 @@
         }
 
         .card li {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             position: relative;
-            padding-left: 20px;
+            padding-left: 25px;
             opacity: 0;
             transform: translateX(-20px);
             animation: fadeInLeft 0.5s ease forwards;
@@ -151,8 +166,62 @@
             position: absolute;
             left: 0;
             color: var(--accent);
-            font-size: 18px;
+            font-size: 22px;
             line-height: 1;
+        }
+
+        /* Interactive Elements */
+        .card .more-info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--accent);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover .more-info {
+            opacity: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            margin: 10% auto;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close {
+            color: var(--accent);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         /* Animations */
@@ -191,9 +260,8 @@
                     <li>Superp - Software Developer (2024-10 - Present)</li>
                     <li>Justins - Software Developer (2022-12 - 2024-04)</li>
                     <li>Domino's - Delivery Person (2022-11 - 2024-05)</li>
-                    <li>Talk2Marketing - Salesperson (2021-01 - 2022-11)</li>
-                    <li>Albert Heijn - Shelf Stocker (2019-10 - 2021-10)</li>
                 </ul>
+                <div class="more-info">Click for more details</div>
             </div>
             <div class="card" style="--order: 2;">
                 <h2>Certifications</h2>
@@ -204,6 +272,7 @@
                     <li>ITS Python</li>
                     <li>Google Cybersecurity</li>
                 </ul>
+                <div class="more-info">Click for more details</div>
             </div>
             <div class="card" style="--order: 3;">
                 <h2>Projects</h2>
@@ -211,6 +280,7 @@
                     <li>Automatic Blog Creator for WordPress</li>
                     <li>Search with Presearch Shortcuts</li>
                 </ul>
+                <div class="more-info">Click for more details</div>
             </div>
             <div class="card" style="--order: 4;">
                 <h2>Skills</h2>
@@ -221,6 +291,7 @@
                     <li>Node.js</li>
                     <li>Database Management</li>
                 </ul>
+                <div class="more-info">Click for more details</div>
             </div>
             <div class="card" style="--order: 5;">
                 <h2>Contact</h2>
@@ -231,9 +302,23 @@
             </div>
         </div>
     </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title"></h2>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.card');
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const closeBtn = document.querySelector('.close');
+
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -246,10 +331,34 @@
             cards.forEach(card => {
                 observer.observe(card);
                 card.querySelectorAll('li').forEach((li, index) => {
-                    li.style.animationDelay = `calc(${card.style.getPropertyValue('--order')} * 0.1s + 0.3s)`;
+                    li.style.animationDelay = `calc(${card.style.getPropertyValue('--order')} * 0.1s + ${0.3 + index * 0.1}s)`;
                 });
+
+                const moreInfo = card.querySelector('.more-info');
+                if (moreInfo) {
+                    moreInfo.addEventListener('click', () => {
+                        modalTitle.textContent = card.querySelector('h2').textContent;
+                        modalBody.innerHTML = card.querySelector('ul').innerHTML;
+                        modal.style.display = 'block';
+                        setTimeout(() => modal.classList.add('active'), 10);
+                    });
+                }
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+                setTimeout(() => modal.style.display = 'none', 300);
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.classList.remove('active');
+                    setTimeout(() => modal.style.display = 'none', 300);
+                }
             });
         });
     </script>
 </body>
 </html>
+
+```
